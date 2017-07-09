@@ -76,6 +76,8 @@ module.exports = function (grunt) {
                     src: [
                         '**/*.js',
                         '!**/extensions/extra/PDFView/thirdparty/**/*',
+                        '!thirdparty/vivliostyle/**/*.js',
+                        '!thirdparty/mathjax/**/*.js'
                     ],
                     dest: 'dist/'
                 }]
@@ -96,11 +98,14 @@ module.exports = function (grunt) {
                             'nls/{,*/}*.js',
                             'thirdparty/github-markdown.css',
                             'thirdparty/bitjs/bitjs-untar.min.js',
+                            'thirdparty/vivliostyle/**/*',
+                            'thirdparty/mathjax/**/*',
                             'hosted.*',
                             // XXXBramble: we don't use src/config.json like Brackets does,
                             // but it needs to exist in dist/ so copy it
                             'config.json',
-                            'bramble-live-dev-cache-sw.js'
+                            'bramble-live-dev-cache-sw.js',
+                            'mathjax-config.js'
                         ]
                     },
                     /* extensions and CodeMirror modes */
@@ -149,6 +154,30 @@ module.exports = function (grunt) {
                         cwd: 'src/node_modules',
                         src: [
                             'less/dist/less.min.js'
+                        ]
+                    },
+                    // Thirdparty libraries for Viola
+                    {
+                        expand: true,
+                        dest: 'src/thirdparty/vivliostyle',
+                        cwd: 'node_modules/vivliostyle',
+                        src: [
+                            'lib/{,*/}*',
+                            'resources/{,*/}*',
+                        ]
+                    },
+                    {
+                        expand: true,
+                        dest: 'src/thirdparty/mathjax',
+                        cwd: 'node_modules/mathjax',
+                        src: [
+                            'MathJax.js',
+                            'config/TeX-MML-AM_SVG.js',
+                            'extensions/**/*',
+                            'fonts/STIX-Web/**/*',
+                            'jax/element/**/*',
+                            'jax/input/**/*',
+                            'jax/output/SVG/**/*'
                         ]
                     }
                 ]
@@ -561,6 +590,7 @@ module.exports = function (grunt) {
         'concat',
         /*'cssmin',*/
         /*'uglify',*/
+        'copy:thirdparty',
         'copy:dist',
         /* XXXBramble: we skip this, since we don't use any of the node_modules in Bramble.
          'npm-install', */

@@ -15,6 +15,8 @@ Thumbs.db
 # ignore files copied from node_modules to src/thirdparty
 /src/thirdparty/CodeMirror
 /src/thirdparty/less.min.js
+/src/thirdparty/vivliostyle
+/src/thirdparty/mathjax
 
 # ignore compiled files
 /dist
