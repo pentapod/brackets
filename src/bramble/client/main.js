@@ -1165,5 +1165,16 @@ define([
         }, callback);
     };
 
+    //
+    // Viola APIs
+    //
+    BrambleProxy.prototype.usePrintPreview = function(callback) {
+        this._executeRemoteCommand({commandCategory: "viola", command: "VIOLA_PRINT_PREVIEW"}, callback);
+    };
+
+    BrambleProxy.prototype.createNewFile = function(callback) {
+        this._executeRemoteCommand({commandCategory: "brackets", command: "FILE_NEW"}, callback);
+    };
+
     return Bramble;
 });
