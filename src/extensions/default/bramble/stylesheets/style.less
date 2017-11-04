@@ -152,3 +152,93 @@
     height: 100%;
 }
 /* Iframe end */
+
+
+/**
+ *  Styles for Viola
+ */
+
+#print-previewer-wrapper,
+#print-previewer-root {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#print-previewer-wrapper {
+    &.hidden {
+        pointer-events: none;
+        opacity: 0;
+    }
+}
+
+#print-previewer-root {
+    padding: 8px;
+
+    * {
+        color: initial;
+        font-family: initial;
+        font-size: initial;
+        font-weight: initial;
+        line-height: initial;
+        -webkit-font-smoothing: initial;
+    }
+}
+
+[data-vivliostyle-viewer-viewport] {
+    background: #eaeaea;
+}
+
+[data-vivliostyle-page-container] {
+    box-shadow: 0 3px 9px rgba(0,0,0,0.16), 0 3px 3px rgba(0, 0, 0, 0.2)
+}
+
+#page-navigation-left,
+#page-navigation-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 32px;
+    height: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.4);
+
+    opacity: 0;
+    transition: opacity 0.08s linear;
+    #second-pane:hover & {
+        opacity: 1;
+    }
+}
+
+#page-navigation-left {
+    left: 0;
+    cursor: w-resize;
+    &:after {
+        content: "";
+        height: 18px;
+        flex-grow: 1;
+        background-image: url("../images/left-array-light.svg");
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}
+
+#page-navigation-right {
+    right: 0;
+    cursor: e-resize;
+    &:after {
+        content: "";
+        height: 18px;
+        flex-grow: 1;
+        background-image: url("../images/right-array-light.svg");
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}

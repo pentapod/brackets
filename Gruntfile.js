@@ -105,7 +105,9 @@ module.exports = function (grunt) {
                             // but it needs to exist in dist/ so copy it
                             'config.json',
                             'bramble-live-dev-cache-sw.js',
-                            'mathjax-config.js'
+                            'mathjax-config.js',
+                            // Viola: copy print page
+                            'print.html'
                         ]
                     },
                     /* extensions and CodeMirror modes */
