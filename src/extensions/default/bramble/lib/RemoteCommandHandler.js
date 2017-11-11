@@ -213,20 +213,38 @@ define(function (require, exports, module) {
             skipCallback = true;
             CommandManager.execute("bramble.addCodeSnippet", args[0]).always(callback);
             break;
-        case "BRAMBLE_ENABLE_PROJECT_CAPACITY_LIMITS":
-            skipCallback = true;
-            Sizes.setEnforceLimits(true);
-            CommandManager.execute("bramble.projectSizeError").always(callback);
-            break;
-        case "BRAMBLE_DISABLE_PROJECT_CAPACITY_LIMITS":
-            Sizes.setEnforceLimits(false);
-            break;
-        case "BRAMBLE_PROJECT_SIZE_CHANGE":
-            UI.setProjectSizeInfo(args[0]);
+            case "BRAMBLE_ENABLE_PROJECT_CAPACITY_LIMITS":
+                skipCallback = true;
+                Sizes.setEnforceLimits(true);
+                CommandManager.execute("bramble.projectSizeError").always(callback);
+                break;
+            case "BRAMBLE_DISABLE_PROJECT_CAPACITY_LIMITS":
+                Sizes.setEnforceLimits(false);
+                break;
+            case "BRAMBLE_PROJECT_SIZE_CHANGE":
+                UI.setProjectSizeInfo(args[0]);
+                break;
+            default:
+                console.log('[Bramble] unknown command:', command);
+                skipCallback = true;
+                break;
+            }
+
+            if(!skipCallback) {
+                callback();
+            }
+        }
+
+    // Viola commands
+    function _violaCommand(command, args, callback) {
+        var skipCallback = false;
+
+        switch(command) {
+        case 'VIOLA_PRINT_PREVIEW':
+            UI.showPrintView();
             break;
         default:
-            console.log('[Bramble] unknown command:', command);
-            skipCallback = true;
+            console.log('Unknown command:', command);
             break;
         }
 
@@ -260,6 +278,9 @@ define(function (require, exports, module) {
             break;
         case "bramble":
             _brambleCommand(remoteRequest.command, args, _remoteCallbackFn(remoteRequest.callback));
+            break;
+        case "viola":
+            _violaCommand(remoteRequest.command, args, _remoteCallbackFn(remoteRequest.callback));
             break;
         default:
             console.error('[Bramble] unknown remote command request:', remoteRequest);

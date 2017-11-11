@@ -30,6 +30,11 @@ define(function (require, exports, module) {
 
     var DEFAULT_PROJECT_SIZE_LIMIT_FORMATTED = Sizes.formatBytes(Sizes.DEFAULT_PROJECT_SIZE_LIMIT);
 
+    // options for Viola
+    var PrintPreviewer = require("lib/PrintPreviewer");
+    var PrintPreviewerTemplate = require("text!lib/Print.html");
+    var isPrintViewOpen = false;
+
     /**
      * This function calls all the hide functions and listens
      * for bramble to be loaded
@@ -57,6 +62,13 @@ define(function (require, exports, module) {
 
             // Restore any UI defaults cached in the client
             restoreState();
+
+            // // Viola: Append previewer root
+            $("#second-pane").append(PrintPreviewerTemplate);
+            PrintPreviewer.init(document.getElementById("print-previewer-root"));
+            $("#print-previewer-wrapper").addClass("hidden");
+            $("#page-navigation-left").on("click", onNavigateLeftClick);
+            $("#page-navigation-right").on("click", onNavigateRightClick);
 
             // Show the editor, remove spinner
             $("#spinner-container").remove();
@@ -244,16 +256,24 @@ define(function (require, exports, module) {
     }
 
     function showDesktopView(preventReload) {
-        if(!isMobileViewOpen) {
+        if(!isMobileViewOpen && !isPrintViewOpen) {
             return;
         }
 
-        $("#bramble-iframe-browser").appendTo("#second-pane");
-        $(".phone-wrapper").detach();
-        $("#second-pane").removeClass("second-pane-scroll");
-        $("#second-pane").off("click", stealFocus);
+        if(isPrintViewOpen) {
+            $("#print-previewer-wrapper").addClass("hidden");
+            $("#bramble-iframe-browser").appendTo("#second-pane");
+        }
+        if(isMobileViewOpen) {
+            $("#print-previewer-wrapper").addClass("hidden");
+            $("#bramble-iframe-browser").appendTo("#second-pane");
+            $(".phone-wrapper").detach();
+            $("#second-pane").removeClass("second-pane-scroll");
+            $("#second-pane").off("click", stealFocus);
+        }
 
         isMobileViewOpen = false;
+        isPrintViewOpen = false;
         BrambleEvents.triggerPreviewModeChange("desktop");
 
         if(!preventReload) {
@@ -262,10 +282,11 @@ define(function (require, exports, module) {
     }
 
     function showMobileView(preventReload) {
-        if(isMobileViewOpen) {
+        if(isMobileViewOpen && !isPrintViewOpen) {
             return;
         }
 
+        $("#print-previewer-wrapper").addClass("hidden");
         $("#bramble-iframe-browser").addClass("phone-body");
         $("#second-pane").append(PhonePreview);
         $("#bramble-iframe-browser").appendTo("#phone-content");
@@ -276,6 +297,7 @@ define(function (require, exports, module) {
         $("#second-pane").on("click", stealFocus);
 
         isMobileViewOpen = true;
+        isPrintViewOpen = false;
         BrambleEvents.triggerPreviewModeChange("mobile");
 
         if(!preventReload) {
@@ -287,33 +309,35 @@ define(function (require, exports, module) {
      * Which preview mode we're in, "desktop" or "mobile"
      */
     function getPreviewMode() {
-        return isMobileViewOpen ? "mobile" : "desktop";
+        //return isMobileViewOpen ? "mobile" : "desktop";
+        return isPrintViewOpen ? "print"
+            : isMobileViewOpen ? "mobile" : "desktop";
     }
 
-    /**
-     * Update File Tree size info when the project's files changes on disk
-     */
-    function setProjectSizeInfo(info) {
-        var currentSize = Sizes.formatBytes(info.size);
+        /**
+         * Update File Tree size info when the project's files changes on disk
+         */
+        function setProjectSizeInfo(info) {
+            var currentSize = Sizes.formatBytes(info.size);
 
-        // Normalize to between 0 - 100%
-        var percentUsed = (Math.max(Math.min(info.percentUsed * 100, 100), 0)).toFixed(2) + "%";
+            // Normalize to between 0 - 100%
+            var percentUsed = (Math.max(Math.min(info.percentUsed * 100, 100), 0)).toFixed(2) + "%";
 
-        SidebarView._updateProjectSizeIndicator(currentSize, DEFAULT_PROJECT_SIZE_LIMIT_FORMATTED, percentUsed);
-    }
+            SidebarView._updateProjectSizeIndicator(currentSize, DEFAULT_PROJECT_SIZE_LIMIT_FORMATTED, percentUsed);
+        }
 
-    /**
-     * Show the user an error dialog, indicating that the project has exceeded the max amount of disk space.
-     */
-    function showProjectSizeErrorDialog() {
-        return Dialogs.showModalDialog(
-            DefaultDialogs.DIALOG_ID_ERROR,
-            Strings.ERROR_OUT_OF_SPACE_TITLE,
-            Strings.ERROR_PROJECT_SIZE_EXCEEDED
-        ).getPromise();
-    }
+        /**
+         * Show the user an error dialog, indicating that the project has exceeded the max amount of disk space.
+         */
+        function showProjectSizeErrorDialog() {
+            return Dialogs.showModalDialog(
+                DefaultDialogs.DIALOG_ID_ERROR,
+                Strings.ERROR_OUT_OF_SPACE_TITLE,
+                Strings.ERROR_PROJECT_SIZE_EXCEEDED
+            ).getPromise();
+        }
 
-    CommandManager.registerInternal("bramble.projectSizeError", showProjectSizeErrorDialog);
+        CommandManager.registerInternal("bramble.projectSizeError", showProjectSizeErrorDialog);
 
     // Define public API
     exports.initUI                 = initUI;
@@ -326,4 +350,34 @@ define(function (require, exports, module) {
     exports.removeMainToolBar      = removeMainToolBar;
     exports.removeRightSideToolBar = removeRightSideToolBar;
     exports.setProjectSizeInfo     = setProjectSizeInfo;
+
+    /**
+     * Viola APIs
+     */
+    exports.showPrintView = function (preventReload) {
+        if(isPrintViewOpen) {
+            return;
+        }
+        if(isMobileViewOpen) {
+            $("#bramble-iframe-browser").appendTo("#second-pane");
+            $(".phone-wrapper").detach();
+            $("#second-pane").removeClass("second-pane-scroll");
+            $("#second-pane").off("click", stealFocus);
+        }
+        $("#print-previewer-wrapper").appendTo("#second-pane");
+        $("#print-previewer-wrapper").removeClass("hidden");
+
+        isPrintViewOpen = true;
+        BrambleEvents.triggerPreviewModeChange("print");
+
+        if(!preventReload) {
+            PostMessageTransport.reload();
+        }
+    };
+    function onNavigateLeftClick() {
+      PrintPreviewer.navigateLeft();
+    }
+    function onNavigateRightClick() {
+      PrintPreviewer.navigateRight();
+    }
 });

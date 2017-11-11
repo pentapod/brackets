@@ -18,6 +18,7 @@ define(function (require, exports, module) {
     var isReload;
     var PostMessageTransport = require("lib/PostMessageTransport");
     var Compatibility = require("lib/compatibility");
+    var PrintPreviewer = require("lib/PrintPreviewer");
 
     /*
      * Publicly avaialble function used to create an empty iframe within the second-panel
@@ -108,6 +109,23 @@ define(function (require, exports, module) {
                     doc.write(urlOrHTML);
                     doc.close();
                 }
+            }
+
+            var detachedPreview = getDetachedPreview();
+            if(detachedPreview) {
+                isReload = true;
+                if(!shouldUseBlobURL) {
+                    doc = detachedPreview.document.open("text/html", "replace");
+                    doc.write(urlOrHTML);
+                    doc.close();
+                } else {
+                    detachedPreview.location.replace(urlOrHTML);
+                }
+            }
+
+            // Viola: update print previewer url
+            if(shouldUseBlobURL) {
+                PrintPreviewer.updateBrowserUrl(urlOrHTML);
             }
         });
     }
