@@ -11,7 +11,8 @@ define(function (require, exports, module) {
     var MB = 1000 * KB;
 
     // 5MB default size limit for total project size on disk
-    var DEFAULT_PROJECT_SIZE_LIMIT = 5 * MB;
+    // var DEFAULT_PROJECT_SIZE_LIMIT = 5 * MB;
+    var DEFAULT_PROJECT_SIZE_LIMIT = 50 * MB;
 
     // 3MB size limit for imported files.
     //var REGULAR_FILE_SIZE_LIMIT_MB = 3 * MB;
