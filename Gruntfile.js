@@ -162,7 +162,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         dest: 'src/thirdparty/vivliostyle',
-                        cwd: 'node_modules/vivliostyle',
+                        cwd: 'src/node_modules/vivliostyle',
                         src: [
                             'lib/{,*/}*',
                             'resources/{,*/}*',
@@ -171,7 +171,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         dest: 'src/thirdparty/mathjax',
-                        cwd: 'node_modules/mathjax',
+                        cwd: 'src/node_modules/mathjax',
                         src: [
                             'MathJax.js',
                             'config/TeX-MML-AM_SVG.js',

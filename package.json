@@ -46,12 +46,10 @@
         "less-plugin-autoprefix": "^1.5.1",
         "load-grunt-tasks": "3.5.0",
         "lodash": "4.15.0",
-        "mathjax": "^2.7.1",
         "phantomjs": "1.9.18",
         "pica": "^3.0.4",
         "q": "1.4.1",
         "semver": "^4.1.0",
-        "vivliostyle": "^2017.6.0",
         "wolfy87-eventemitter": "^5.1.0",
         "xmldoc": "^0.1.2"
     },
