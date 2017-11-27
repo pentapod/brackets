@@ -43,7 +43,8 @@ module.exports = function (grunt) {
             'grunt-usemin',
             'grunt-cleanempty',
             'grunt-exec',
-            'grunt-newer'
+            'grunt-newer',
+            'grunt-sed'
         ]
     });
 
@@ -77,7 +78,9 @@ module.exports = function (grunt) {
                         '**/*.js',
                         '!**/extensions/extra/PDFView/thirdparty/**/*',
                         '!thirdparty/vivliostyle/**/*.js',
-                        '!thirdparty/mathjax/**/*.js'
+                        '!thirdparty/mathjax/**/*.js',
+                        '!thirdparty/preact/**/*.js',
+                        '!thirdparty/viola-savepdf/**/*.js'
                     ],
                     dest: 'dist/'
                 }]
@@ -107,7 +110,8 @@ module.exports = function (grunt) {
                             'bramble-live-dev-cache-sw.js',
                             'mathjax-config.js',
                             // Viola: copy print page
-                            'print.html'
+                            'thirdparty/preact/**/*',
+                            'thirdparty/viola-savepdf/**/*'
                         ]
                     },
                     /* extensions and CodeMirror modes */
@@ -180,6 +184,22 @@ module.exports = function (grunt) {
                             'jax/element/**/*',
                             'jax/input/**/*',
                             'jax/output/SVG/**/*'
+                        ]
+                    },
+                    {
+                        expand: true,
+                        dest: 'src/thirdparty/preact',
+                        cwd: 'src/node_modules/preact',
+                        src: [
+                            'dist/preact.min.js'
+                        ]
+                    },
+                    {
+                        expand: true,
+                        dest: 'src/thirdparty/viola-savepdf',
+                        cwd: 'src/node_modules/viola-savepdf/broker',
+                        src: [
+                            '**/*'
                         ]
                     }
                 ]
@@ -467,6 +487,18 @@ module.exports = function (grunt) {
             dist: {
                 rootDir: 'dist'
             }
+        },
+
+        sed: {
+            // Viola: fix path in viola-savepdf/index.html
+            viola: {
+                path: [
+                    'src/thirdparty/viola-savepdf/index.html',
+                    'src/thirdparty/viola-savepdf/main.js'
+                ],
+                pattern: '/node_modules/',
+                replacement: '../',
+            }
         }
     };
 
@@ -593,6 +625,7 @@ module.exports = function (grunt) {
         /*'cssmin',*/
         /*'uglify',*/
         'copy:thirdparty',
+        'sed:viola',
         'copy:dist',
         /* XXXBramble: we skip this, since we don't use any of the node_modules in Bramble.
          'npm-install', */

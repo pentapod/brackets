@@ -17,6 +17,8 @@ Thumbs.db
 /src/thirdparty/less.min.js
 /src/thirdparty/vivliostyle
 /src/thirdparty/mathjax
+/src/thirdparty/preact
+/src/thirdparty/viola-savepdf
 
 # ignore compiled files
 /dist
