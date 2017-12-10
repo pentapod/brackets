@@ -9,33 +9,63 @@ define(function (require, exports, module) {
 
     var BrambleEvents = brackets.getModule("bramble/BrambleEvents");
     var BrambleStartupState = brackets.getModule("bramble/StartupState");
+    var UrlCache = brackets.getModule("filesystem/impls/filer/UrlCache");
 
-    var _previewerRef, _viewer, _currentUrl;
+    var PrintPreviewerTemplate = require("text!lib/Print.html");
 
-    function init(previewerRootRef) {
-        _previewerRef = previewerRootRef;
-        _viewer = new vivliostyle.viewer.Viewer({
-            userAgentRootURL: "thirdparty/vivliostyle/resources/",
-            viewportElement: _previewerRef,
-            debug: true,
-        });
+    var _previewerRef, _viewer, _currentUrl, _iframeRef;
+
+    function init() {
+        if (!_iframeRef) {
+            $("#second-pane").append(PrintPreviewerTemplate);
+            var iframeConfig = {
+                id: "print-previewer-root",
+                src: BrambleStartupState.url("base") + "extensions/default/bramble/print-previewer/index.html",
+                frameborder: 0
+            };
+            $("<iframe>", iframeConfig).prependTo("#print-previewer-wrapper");
+
+            _iframeRef = window.document.getElementById("print-previewer-root");
+            window.addEventListener("message", _listener);
+        }
 
         BrambleEvents.on("bramble:projectSaved", reload);
+    }
+
+    function _listener(event) {
+        var msgObj;
+
+        try {
+            msgObj = JSON.parse(event.data);
+        } catch (e) {
+            return;
+        }
+
+        if (msgObj.message === "ready") {
+            reload();
+        }
+    }
+
+    function getPreviewerIFrame() {
+        return _iframeRef;
+    }
+
+    function sendMessage(msgStr) {
+        if (!_iframeRef) {
+            return;
+        }
+        var win = _iframeRef.contentWindow;
+        win.postMessage(msgStr, "*");
     }
 
     function reload() {
         if (typeof _currentUrl !== "string") {
             return;
         }
-        if (_viewer) {
-            _viewer.loadDocument({
-                url: _currentUrl,
-                startPage: undefined,
-                skipPagesBefore: undefined,
-            }, {}, {
-                fitToScreen: true,
-            });
-        }
+        sendMessage(JSON.stringify({
+            action: "load_document",
+            url: _currentUrl
+        }));
     }
 
     function updateBrowserUrl(url) {
@@ -43,30 +73,27 @@ define(function (require, exports, module) {
             return;
         }
         _currentUrl = url;
-        if (_viewer) {
-            _viewer.loadDocument({
-                url: url,
-                startPage: undefined,
-                skipPagesBefore: undefined,
-            }, {}, {
-                fitToScreen: true
-            });
-        }
+        sendMessage(JSON.stringify({
+            action: "load_document",
+            url: _currentUrl
+        }));
     }
 
     function navigateLeft() {
-        if (_viewer) {
-          _viewer.navigateToPage("left");
-        }
+        sendMessage(JSON.stringify({
+          action: "navigate_left"
+      }));
     }
 
     function navigateRight() {
-        if (_viewer) {
-          _viewer.navigateToPage("right");
-        }
+        sendMessage(JSON.stringify({
+            action: "navigate_right"
+        }));
     }
 
     exports.init = init;
+    exports.getPreviewerIFrame = getPreviewerIFrame;
+    exports.sendMessage = sendMessage;
     exports.reload = reload;
     exports.updateBrowserUrl = updateBrowserUrl;
     exports.navigateLeft = navigateLeft;

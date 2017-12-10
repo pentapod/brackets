@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="../../../../">
+    <meta charset="UTF-8">
+    <title>Print previewer host page</title>
+
+    <script src="thirdparty/vivliostyle/lib/vivliostyle.min.js"></script>
+    <link rel="stylesheet" href="thirdparty/vivliostyle/resources/vivliostyle-viewport.css">
+    <link rel="stylesheet" href="thirdparty/vivliostyle/resources/vivliostyle-viewport-screen.css" media="screen">
+    <style>
+      #root {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 8px;
+        background-color: #eaeaea;
+      }
+
+      #root:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+
+        opacity: 0;
+        transition: opacity 0.08s linear;
+      }
+
+      #root[data-vivliostyle-viewer-status="interactive"]:after,
+      #root[data-vivliostyle-viewer-status="loading"]:after {
+        opacity: 1;
+      }
+
+      [data-vivliostyle-page-container] {
+        box-shadow: 0 3px 9px rgba(0,0,0,0.16), 0 3px 3px rgba(0, 0, 0, 0.2)
+      }
+    </style>
+
+    <!-- Empty tag for injecting page size style -->
+    <style id="vivliostyle-page-rules"></style>
+
+    <script>
+      // Listen for postMessage
+      (function() {
+        "use strict";
+
+        function loadDocument(url) {
+          if (!window.viewer) {
+            return;
+          }
+          window.viewer.loadDocument([ url ], {}, {
+            fitToScreen: true,
+          });
+        }
+
+        function navigateLeft() {
+          if (!window.viewer) {
+            return;
+          }
+          window.viewer.navigateToPage("left");
+        }
+
+        function navigateRight() {
+          if (!window.viewer) {
+            return;
+          }
+          window.viewer.navigateToPage("right");
+        }
+
+        function callback(msgStr) {
+          var data = JSON.parse(msgStr);
+          if (!data.action) {
+            return;
+          }
+          switch (data.action) {
+            case "load_document":
+              loadDocument(data.url);
+              break;
+            case "navigate_left":
+              navigateLeft();
+              break;
+            case "navigate_right":
+              navigateRight();
+              break;
+          }
+        }
+
+        window.addEventListener("message", event => {
+          callback(event.data);
+        });
+      }());
+    </script>
+  </head>
+  <body>
+    <div id="root" data-vivliostyle-viewer-viewport="true"></div>
+
+    <script>
+      var parent = window.opener || window.parent;
+
+      // register ServiceWorker so that import vfs files in CacheStorage
+      window.navigator.serviceWorker.register("bramble-live-dev-cache-sw.js").then(reg => {
+        window.viewer = new vivliostyle.viewer.Viewer({
+          userAgentRootURL: "thirdparty/vivliostyle/resources/",
+          viewportElement: document.getElementById("root"),
+          debug: true
+        });
+        parent.postMessage(JSON.stringify({
+          message: "ready"
+        }), "*");
+      }).catch(e => {
+        console.error(e);
+      });
+    </script>
+  </body>
+</html>

@@ -133,7 +133,8 @@
             ]
         },
         "copy": [
-            "extensions/default/bramble/images/**/*"
+            "extensions/default/bramble/images/**/*",
+            "extensions/default/bramble/print-previewer/**/*"
         ]
     },
     {

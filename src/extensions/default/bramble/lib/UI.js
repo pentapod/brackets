@@ -32,7 +32,6 @@ define(function (require, exports, module) {
 
     // options for Viola
     var PrintPreviewer = require("lib/PrintPreviewer");
-    var PrintPreviewerTemplate = require("text!lib/Print.html");
     var isPrintViewOpen = false;
 
     /**
@@ -64,8 +63,8 @@ define(function (require, exports, module) {
             restoreState();
 
             // // Viola: Append previewer root
-            $("#second-pane").append(PrintPreviewerTemplate);
-            PrintPreviewer.init(document.getElementById("print-previewer-root"));
+            PrintPreviewer.init();
+
             $("#print-previewer-wrapper").addClass("hidden");
             $("#page-navigation-left").on("click", onNavigateLeftClick);
             $("#page-navigation-right").on("click", onNavigateRightClick);
@@ -364,7 +363,7 @@ define(function (require, exports, module) {
             $("#second-pane").removeClass("second-pane-scroll");
             $("#second-pane").off("click", stealFocus);
         }
-        $("#print-previewer-wrapper").appendTo("#second-pane");
+        $("#bramble-iframe-browser").prependTo("#second-pane");
         $("#print-previewer-wrapper").removeClass("hidden");
 
         isPrintViewOpen = true;
