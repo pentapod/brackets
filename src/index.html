@@ -106,8 +106,6 @@
 
     <!-- NOTE: All scripts must be external for Chrome App support: http://developer.chrome.com/apps/app_csp.html -->
 
-    <link rel="stylesheet" href="thirdparty/vivliostyle/resources/vivliostyle-viewport.css">
-    <link rel="stylesheet" href="thirdparty/vivliostyle/resources/vivliostyle-viewport-screen.css" media="screen">
     <!--(if target dev)><!-->
     <link rel="stylesheet" type="text/css" href="thirdparty/CodeMirror/lib/codemirror.css">
     <link rel="stylesheet/less" type="text/css" href="styles/bramble.less">
@@ -115,10 +113,6 @@
     <!--(if target dist)>
     <link rel="stylesheet" type="text/css" href="styles/brackets.min.css">
     <!--<!(endif)-->
-
-    <!-- Viola: Load MathJax for print preview -->
-    <script src="mathjax-config.js"></script>
-    <script src="thirdparty/mathjax/MathJax.js?config=TeX-MML-AM_SVG"></script>
 </head>
 <body>
     <!-- We show a spinner on startup, which gets removed when loaded by
@@ -151,7 +145,6 @@
     <!-- build:js thirdparty/thirdparty.min.js -->
     <script src="thirdparty/browser-appshell.js"></script>
     <script src="thirdparty/jquery-2.1.3.min.js"></script>
-    <script src="thirdparty/vivliostyle/lib/vivliostyle.min.js"></script>
     <!-- endbuild -->
 
     <!-- All other scripts are loaded through require. -->
