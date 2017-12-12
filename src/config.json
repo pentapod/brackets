@@ -62,6 +62,7 @@
         "grunt-exec": "^1.0.1",
         "grunt-jasmine-node": "0.1.0",
         "grunt-lib-phantomjs": "0.3.0",
+        "grunt-sed": "^0.1.1",
         "grunt-targethtml": "0.2.6",
         "grunt-template-jasmine-requirejs": "0.1.0",
         "grunt-usemin": "0.1.11",

@@ -131,9 +131,9 @@
       }
     },
     "chrome-launcher": {
-      "version": "0.8.1",
-      "resolved": "https://registry.npmjs.org/chrome-launcher/-/chrome-launcher-0.8.1.tgz",
-      "integrity": "sha512-YhLMJ5acDodfRfIL6Vzv1NQ3ygAHqW78BJJryRxlcUdcvkfp3/R1V+qEBDi2S0k07/bZIubqfRIsKsg25GqQBQ==",
+      "version": "0.10.0",
+      "resolved": "https://registry.npmjs.org/chrome-launcher/-/chrome-launcher-0.10.0.tgz",
+      "integrity": "sha512-IX+P7Q+mlASMu42JdfffZI+4B2dKRCQZ+KP8ZDHHpE3dYRrY5JTudhVrYcvX0GC+EwKtfpQFla/ZkenSsGwRwQ==",
       "requires": {
         "@types/core-js": "0.9.43",
         "@types/mkdirp": "0.3.29",
@@ -882,13 +882,13 @@
       }
     },
     "viola-savepdf": {
-      "version": "1.2.0",
-      "resolved": "https://registry.npmjs.org/viola-savepdf/-/viola-savepdf-1.2.0.tgz",
-      "integrity": "sha512-xdqPuUsa6UQPQguPj+/BHQ9bquir+dpZmVPwwI5RpcQfw7OwoiGJxQAh76FeR2730OF4UggwPSgtxCYaFRJd9w==",
+      "version": "1.2.2",
+      "resolved": "https://registry.npmjs.org/viola-savepdf/-/viola-savepdf-1.2.2.tgz",
+      "integrity": "sha512-tvxpx1d7tlyG1DieGS/4DvwfKdUmp4Splm52+/zALiasRfZuI9HlXnEgvkQG+5fKWeb6k7fkiJh8ZZDeCTzUFw==",
       "requires": {
-        "chrome-launcher": "0.8.1",
+        "chrome-launcher": "0.10.0",
         "chrome-remote-interface": "0.25.4",
-        "commander": "2.12.1",
+        "commander": "2.12.2",
         "http-server": "0.10.0",
         "portfinder": "1.0.13",
         "preact": "8.2.6",
@@ -896,9 +896,9 @@
       },
       "dependencies": {
         "commander": {
-          "version": "2.12.1",
-          "resolved": "https://registry.npmjs.org/commander/-/commander-2.12.1.tgz",
-          "integrity": "sha512-PCNLExLlI5HiPdaJs4pMXwOTHkSCpNQ1QJH9ykZLKtKEyKu3p9HgmH5l97vM8c0IUz6d54l+xEu2GG9yuYrFzA=="
+          "version": "2.12.2",
+          "resolved": "https://registry.npmjs.org/commander/-/commander-2.12.2.tgz",
+          "integrity": "sha512-BFnaq5ZOGcDN7FlrtBT4xxkgIToalIIxwjxLWVJ8bGTpe1LroqMiqQXdA7ygc7CRvaYS+9zfPGFnJqFSayx+AA=="
         }
       }
     },
