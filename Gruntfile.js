@@ -498,6 +498,15 @@ module.exports = function (grunt) {
                 ],
                 pattern: '/node_modules/',
                 replacement: '../',
+            },
+            // Viola: fix url origin in iframe
+            iframeOrigin: {
+                path: [
+                    "dist/bramble.js",
+                ],
+                pattern: 'https://mozillathimblelivepreview.net/bramble/dist/index.html',
+                // If environment variable is not set, it do nothing
+                replacement: process.env.REACT_APP_BRAMBLE_HOST_URL,
             }
         }
     };
@@ -645,6 +654,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build-browser', [
         'build',
         'requirejs:iframe',
+        'sed:iframeOrigin',
         'exec:localize-dist',
         'build-extensions',
         'uglify'
