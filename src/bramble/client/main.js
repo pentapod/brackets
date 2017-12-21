@@ -287,6 +287,7 @@ define([
 
         // State info for UI
         var _state = new StateManager(options.disableUIState);
+        var _violaState = {};
 
         // The project root dir that Bramble mounted
         var _root;
@@ -346,6 +347,9 @@ define([
             };
         };
 
+        // Viola: getter of Viola API
+        self.getPreviewURL = function() { return _violaState.previewURL; };
+
         if (typeof div === "object"  && !(div instanceof HTMLElement)) {
             options = div;
             div = null;
@@ -371,8 +375,19 @@ define([
                     return;
                 }
 
+                // Viola: handle Viola events
+                if (data.type.indexOf('viola:') === 0) {
+                    var eventName = data.type.replace(/^viola:/, '');
+                    delete data.type;
+
+                    if (eventName === "activePreviewChange") {
+                        _violaState.previewURL = data.previewURL;
+                    }
+
+                    self.trigger(eventName, [data]);
+                }
                 // When bramble instance is ready for the filesystem to be mounted, it will let us know
-                if (data.type === "bramble:readyToMount") {
+                else if (data.type === "bramble:readyToMount") {
                     debug("bramble:readyToMount");
                     setReadyState(Bramble.MOUNTABLE);
 

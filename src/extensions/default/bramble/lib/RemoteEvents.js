@@ -278,4 +278,11 @@ define(function (require, exports, module) {
 
     exports.start = start;
     exports.loaded = loaded;
+
+    exports.sendActivePreviewChangeEvent = function(previewURL) {
+        sendEvent({
+            type: "viola:activePreviewChange",
+            previewURL: previewURL
+        });
+    };
 });

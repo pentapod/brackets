@@ -19,6 +19,7 @@ define(function (require, exports, module) {
     var PostMessageTransport = require("lib/PostMessageTransport");
     var Compatibility = require("lib/compatibility");
     var PrintPreviewer = require("lib/PrintPreviewer");
+    var RemoteEvents = require("lib/RemoteEvents");
 
     /*
      * Publicly avaialble function used to create an empty iframe within the second-panel
@@ -48,6 +49,12 @@ define(function (require, exports, module) {
         };
         //Append iFrame to _panel
         $("<iframe>", iframeConfig).addClass("iframeWidthHeight").prop("allow", "geolocation *; microphone *; camera *").appendTo(_panel);
+
+        // Viola: add preview change event
+        var iframe = getBrowserIframe();
+        iframe.addEventListener('load', function() {
+            RemoteEvents.sendActivePreviewChangeEvent(iframe.src);
+        });
     }
 
     /*
