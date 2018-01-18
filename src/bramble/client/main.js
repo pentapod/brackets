@@ -380,10 +380,14 @@ define([
                     var eventName = data.type.replace(/^viola:/, '');
                     delete data.type;
 
+                    if (eventName === "loadingProgressUpdate") {
+                        Bramble.trigger("loadingProgressUpdate", [data]);
+                        return;
+                    }
+
                     if (eventName === "activePreviewChange") {
                         _violaState.previewURL = data.previewURL;
                     }
-
                     self.trigger(eventName, [data]);
                 }
                 // When bramble instance is ready for the filesystem to be mounted, it will let us know

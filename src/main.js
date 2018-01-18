@@ -128,6 +128,16 @@ if ('serviceWorker' in window.navigator) {
                 }
             };
         };
+
+        navigator.serviceWorker.addEventListener('message', function (event) {
+            // Viola: handle progress update events
+            if (event.data.progress) {
+                sendMessage({
+                    type: 'viola:loadingProgressUpdate',
+                    progress: event.data.progress
+                });
+            }
+        });
     }).catch(function (e) {
         "use strict";
         console.warn('[Bramble] Error during service worker registration:', e);

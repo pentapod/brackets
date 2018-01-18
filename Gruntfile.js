@@ -111,7 +111,9 @@ module.exports = function (grunt) {
                             'mathjax-config.js',
                             // Viola: copy print page
                             'thirdparty/preact/**/*',
-                            'thirdparty/viola-savepdf/**/*'
+                            'thirdparty/viola-savepdf/**/*',
+                            // Viola: script imported from bramble-sw.js
+                            'viola-loading-progress-sw.js'
                         ]
                     },
                     /* extensions and CodeMirror modes */
@@ -597,7 +599,8 @@ module.exports = function (grunt) {
             }],
             stripPrefix: 'dist/',
             importScripts: [
-                "bramble-live-dev-cache-sw.js"
+                "bramble-live-dev-cache-sw.js",
+                "viola-loading-progress-sw.js"
             ],
             ignoreUrlParametersMatching: [/./]
         };
