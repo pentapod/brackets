@@ -1,35 +1,29 @@
-/**
- * Viola: A configuration file for MathJax
+/*
+ * Viola: A configuration file for MathJax.
+ * This file is used for web preview and it's no effect to print preview.
+ * See also vivliostyle/resources/mathjax-config.js
  */
 
-/*global MathJax*/
+/* eslint-disable */
 
-(function() {
-    "use strict";
-
-    window.MathJax = {
-        showProcessingMessages: false,
-        messageStyle: "none",
-        tex2jax: {
-            inlineMath: [["$", "$"], ["\\(", "\\)"]]
+window.MathJax = {
+    showProcessingMessages: false,
+    messageStyle: "none",
+    CommonHTML: {
+        scale: 90,
+        linebreaks: {
+            automatic: true
         },
-        SVG: {
-            scale: 90,
-            font: "STIX-Web",
-            linebreaks: {
-                automatic: true
-            },
-            styles: {
-                ".MJXc-display": {
-                    margin: "0"
-                }
+        styles: {
+            ".MJXc-display": {
+                margin: "0"
             }
-        },
-        "fast-preview": {
-            disabled: true
-        },
-        AuthorInit: function() {
-            MathJax.Hub.processSectionDelay = 0;
         }
-    };
-}());
+    },
+    "fast-preview": {
+        disabled: true
+    },
+    AuthorInit: function() {
+        MathJax.Hub.processSectionDelay = 0;
+    }
+};

@@ -180,12 +180,14 @@ module.exports = function (grunt) {
                         cwd: 'src/node_modules/mathjax',
                         src: [
                             'MathJax.js',
-                            'config/TeX-MML-AM_SVG.js',
+                            'config/TeX-MML-AM_CHTML-full.js',
+                            'config/Safe.js',
                             'extensions/**/*',
-                            'fonts/STIX-Web/**/*',
+                            'fonts/HTML-CSS/TeX/woff/**/*',
                             'jax/element/**/*',
                             'jax/input/**/*',
-                            'jax/output/SVG/**/*'
+                            'jax/output/CommonHTML/**/*',
+                            'jax/output/PreviewHTML/**/*'
                         ]
                     },
                     {

@@ -220,10 +220,7 @@ define(function (require, exports, module) {
             XHRManager.getRemoteScript() +
             MouseManager.getRemoteScript(escapedPath) +
             LinkManager.getRemoteScript() +
-            ConsoleManager.getRemoteScript() +
-            // Viola: Load MathJax
-            '<script src="' + BrambleStartupState.url("base") + 'mathjax-config.js"></script>\n' +
-            '<script src="' + BrambleStartupState.url("base") + 'thirdparty/mathjax/MathJax.js?config=TeX-MML-AM_SVG"></script>\n';
+            ConsoleManager.getRemoteScript();
     }
 
     // URL of document being rewritten/launched (if any)
