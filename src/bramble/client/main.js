@@ -376,7 +376,7 @@ define([
                 }
 
                 // Viola: handle Viola events
-                if (data.type.indexOf('viola:') === 0) {
+                if (typeof data.type === 'string' && data.type.indexOf('viola:') === 0) {
                     var eventName = data.type.replace(/^viola:/, '');
                     delete data.type;
 
