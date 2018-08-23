@@ -118,18 +118,6 @@ define(function (require, exports, module) {
                 }
             }
 
-            var detachedPreview = getDetachedPreview();
-            if(detachedPreview) {
-                isReload = true;
-                if(!shouldUseBlobURL) {
-                    doc = detachedPreview.document.open("text/html", "replace");
-                    doc.write(urlOrHTML);
-                    doc.close();
-                } else {
-                    detachedPreview.location.replace(urlOrHTML);
-                }
-            }
-
             // Viola: update print previewer url
             if(shouldUseBlobURL) {
                 PrintPreviewer.updateBrowserUrl(urlOrHTML);
