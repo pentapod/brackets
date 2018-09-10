@@ -1,10 +1,10 @@
 {
   "name": "brackets-src",
   "dependencies": {
-    "codemirror": "5.21.0",
-    "less": "2.7.2",
-    "mathjax": "2.7.2",
-    "viola-savepdf": "^1.2.3",
-    "vivliostyle": "2017.6.0"
+    "codemirror": "5.40.0",
+    "less": "3.8.1",
+    "mathjax": "2.7.5",
+    "viola-savepdf": "1.2.6",
+    "vivliostyle": "2018.8.100"
   }
 }
