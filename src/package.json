@@ -4,7 +4,7 @@
     "codemirror": "5.40.0",
     "less": "3.8.1",
     "mathjax": "2.7.5",
-    "viola-savepdf": "1.2.6",
-    "vivliostyle": "2018.8.100"
+    "viola-savepdf": "1.2.7",
+    "vivliostyle": "2019.1.102"
   }
 }
